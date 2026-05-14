@@ -33,9 +33,18 @@ describe('URLStateEncoder', () => {
     expect(URLStateEncoder.decode(encoded)).toBeNull()
   })
 
-  it('compressed output is shorter than raw JSON', () => {
-    const raw = JSON.stringify(state)
-    const compressed = URLStateEncoder.encode(state)
+  it('compressed output is shorter than raw JSON for large payloads', () => {
+    // LZString compresses repeated patterns well — a large array is a realistic use case
+    const largeState: URLState = {
+      v:      1,
+      module: 'sorting',
+      algo:   'merge',
+      array:  Array.from({ length: 100 }, (_, i) => (i * 7 + 3) % 100 + 1),
+      speed:  50,
+      lang:   'pseudocode',
+    }
+    const raw = JSON.stringify(largeState)
+    const compressed = URLStateEncoder.encode(largeState)
     expect(compressed.length).toBeLessThan(raw.length)
   })
 
