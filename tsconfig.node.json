@@ -4,7 +4,8 @@
     "skipLibCheck": true,
     "module": "esnext",
     "moduleResolution": "bundler",
-    "target": "es2023"
+    "target": "es2023",
+    "types": ["vite/client", "vitest/globals"]
   },
   "include": ["vite.config.ts", "tsconfig.json"]
 }
