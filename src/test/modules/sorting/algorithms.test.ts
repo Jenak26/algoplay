@@ -35,7 +35,7 @@ const algorithms: [string, (a: number[], r: StepRecorder) => void][] = [
   ['radix',     recordRadix],
 ]
 
-describe.each(algorithms)('%s sort', (name, fn) => {
+describe.each(algorithms)('%s sort', (_name, fn) => {
   it('sorts the array correctly', () => {
     const { final } = runAndGetFinal(fn)
     expect(final).toEqual(SORTED)
