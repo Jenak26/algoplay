@@ -1,6 +1,7 @@
 // src/components/ComplexityChart.tsx
 import { useEffect, useRef } from 'react'
 import { useDebuggerStore }  from '@/store/useDebuggerStore'
+import type { StepSnapshot } from '@/types/StepSnapshot'
 
 interface Props {
   complexity: 'n2' | 'nlogn' | 'n' | 'nk'
@@ -51,7 +52,7 @@ export function ComplexityChart({ complexity, arraySize }: Props) {
     ctx.strokeStyle = '#6366f1'
     ctx.lineWidth = 2
     for (let s = 0; s <= currentStep && s < totalSteps; s++) {
-      const ops = steps[s].opCount.comparisons + steps[s].opCount.swaps
+      const ops = (steps[s] as StepSnapshot).opCount.comparisons + (steps[s] as StepSnapshot).opCount.swaps
       const x = s * xScale
       const y = h - Math.min(ops * yScale, h)
       if (s === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y)
@@ -59,7 +60,7 @@ export function ComplexityChart({ complexity, arraySize }: Props) {
     ctx.stroke()
 
     if (steps[currentStep]) {
-      const ops = steps[currentStep].opCount.comparisons + steps[currentStep].opCount.swaps
+      const ops = (steps[currentStep] as StepSnapshot).opCount.comparisons + (steps[currentStep] as StepSnapshot).opCount.swaps
       const x = currentStep * xScale
       const y = h - Math.min(ops * yScale, h)
       ctx.beginPath()

@@ -11,6 +11,7 @@ import { CodeView }          from '@/components/CodeView'
 import { ComplexityChart }   from '@/components/ComplexityChart'
 import { PatternSelector }   from '@/components/PatternSelector'
 import { ShareButton }       from '@/components/ShareButton'
+import type { StepSnapshot } from '@/types/StepSnapshot'
 import { sortingModule }     from './index'
 import { RaceMode }          from './RaceMode'
 
@@ -47,7 +48,7 @@ export default function SortingPage() {
     : ['counting','radix'].includes(activeAlgoId) ? 'nk'
     : 'n2') as 'n2' | 'nlogn' | 'nk'
 
-  const currentSnapshot = steps[currentStep] ?? null
+  const currentSnapshot = (steps[currentStep] as StepSnapshot | undefined) ?? null
 
   const canvasRef = useCanvasRenderer(sortingModule.Renderer, currentSnapshot)
 
@@ -79,7 +80,7 @@ export default function SortingPage() {
     return () => clearTimeout(id)
   }, [isPlaying, currentStep, totalSteps, speed, soundEnabled, currentSnapshot, stepForward, pause])
 
-  const opCount = steps[currentStep]?.opCount
+  const opCount = (steps[currentStep] as StepSnapshot | undefined)?.opCount
   const stableLabel = activeAlgo.stable ? 'stable' : 'unstable'
 
   const [view, setView] = useState<'visualizer' | 'race'>('visualizer')

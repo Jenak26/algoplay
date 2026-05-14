@@ -1,4 +1,5 @@
 // src/types/StepSnapshot.ts
+import type { DebugSnapshot } from './DebugSnapshot'
 
 export type HighlightRole =
   | 'comparing'
@@ -19,11 +20,9 @@ export const HIGHLIGHT_COLORS: Record<HighlightRole, string> = {
   default:   '#6366f1',
 }
 
-export interface StepSnapshot {
+export interface StepSnapshot extends DebugSnapshot {
   readonly array:       readonly number[]
   readonly highlights:  ReadonlyMap<number, HighlightRole>
   readonly pointers:    Readonly<Record<string, number>>
   readonly opCount:     { readonly comparisons: number; readonly swaps: number }
-  readonly codeLine:    number
-  readonly description: string
 }

@@ -1,10 +1,10 @@
 // src/store/useDebuggerStore.ts
 import { create } from 'zustand'
 import type { UseBoundStore, StoreApi } from 'zustand'
-import type { StepSnapshot } from '@/types/StepSnapshot'
+import type { DebugSnapshot } from '@/types/DebugSnapshot'
 
 interface DebuggerState {
-  steps:         readonly StepSnapshot[]
+  steps:         readonly DebugSnapshot[]
   currentStep:   number
   totalSteps:    number
   isPlaying:     boolean
@@ -12,7 +12,7 @@ interface DebuggerState {
 }
 
 interface DebuggerActions {
-  loadSteps:    (steps: readonly StepSnapshot[]) => void
+  loadSteps:    (steps: readonly DebugSnapshot[]) => void
   play:         () => void
   pause:        () => void
   stepForward:  () => void
