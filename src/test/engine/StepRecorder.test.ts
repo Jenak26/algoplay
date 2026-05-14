@@ -60,7 +60,6 @@ describe('StepRecorder', () => {
     })
     const steps = recorder.getSteps()
     expect(() => {
-      // @ts-expect-error — intentionally testing immutability at runtime
       ;(steps as unknown[]).push({})
     }).toThrow()
   })
