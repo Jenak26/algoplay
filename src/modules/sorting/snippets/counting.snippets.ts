@@ -1,0 +1,33 @@
+// src/modules/sorting/snippets/counting.snippets.ts
+import type { CodeSnippets } from '@/types/AlgorithmModule'
+
+export const countingSnippets: CodeSnippets = {
+  pseudocode: [
+    'procedure countingSort(arr)',
+    '  count = array of zeros, size max+1',
+    '  for each x in arr: count[x]++',
+    '  idx = 0',
+    '  for v = 0 to max',
+    '    while count[v]>0: arr[idx++]=v',
+    '  return arr',
+  ],
+  python: [
+    'def counting_sort(arr):',
+    '  count=[0]*(max(arr)+1)',
+    '  for x in arr: count[x]+=1',
+    '  idx=0',
+    '  for v,c in enumerate(count):',
+    '    for _ in range(c): arr[idx]=v; idx+=1',
+    '  return arr',
+  ],
+  javascript: [
+    'function countingSort(arr) {',
+    '  const count=new Array(max+1).fill(0);',
+    '  arr.forEach(x=>count[x]++);',
+    '  let idx=0;',
+    '  for(let v=0;v<=max;v++)',
+    '    while(count[v]-->0) arr[idx++]=v;',
+    '  return arr; }',
+  ],
+  lineMap: [],
+}

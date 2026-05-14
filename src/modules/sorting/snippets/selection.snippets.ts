@@ -1,0 +1,36 @@
+// src/modules/sorting/snippets/selection.snippets.ts
+import type { CodeSnippets } from '@/types/AlgorithmModule'
+
+export const selectionSnippets: CodeSnippets = {
+  pseudocode: [
+    'procedure selectionSort(arr)',
+    '  for i = 0 to n-2',
+    '    minIdx = i',
+    '    for j = i+1 to n-1',
+    '      if arr[j] < arr[minIdx]',
+    '        minIdx = j',
+    '    swap(arr[i], arr[minIdx])',
+    '  return arr',
+  ],
+  python: [
+    'def selection_sort(arr):',
+    '  for i in range(len(arr)-1):',
+    '    min_idx = i',
+    '    for j in range(i+1,len(arr)):',
+    '      if arr[j] < arr[min_idx]:',
+    '        min_idx = j',
+    '    arr[i],arr[min_idx]=arr[min_idx],arr[i]',
+    '  return arr',
+  ],
+  javascript: [
+    'function selectionSort(arr) {',
+    '  for (let i=0; i<n-1; i++) {',
+    '    let min=i;',
+    '    for (let j=i+1; j<n; j++) {',
+    '      if (arr[j]<arr[min]) {',
+    '        min=j; }',
+    '    [arr[i],arr[min]]=[arr[min],arr[i]];',
+    '  } return arr; }',
+  ],
+  lineMap: [],
+}
