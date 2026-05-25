@@ -15,5 +15,4 @@ export const MODULE_NAV: ModuleNavEntry[] = [
   { id: 'graphs',      name: 'Graphs',        icon: '🕸', route: '/graphs'      },
   { id: 'trees',       name: 'Trees',         icon: '🌲', route: '/trees'       },
   { id: 'dp',          name: 'Dynamic Prog.', icon: '🧩', route: '/dp'          },
-  { id: 'bot',         name: 'AlgoBot Chat',  icon: '💬', route: '/bot'         },
 ]
