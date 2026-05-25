@@ -33,6 +33,7 @@ export default function DPPage() {
   const [strA, setStrA]         = useState('STONE')
   const [strB, setStrB]         = useState('LONGEST')
   const [capacity, setCapacity] = useState(7)
+  const [coinsInput, setCoinsInput] = useState('1,2,5')
   const [seed, setSeed]         = useState(0)
 
   const canvasRef  = useRef<HTMLCanvasElement>(null)
@@ -41,11 +42,30 @@ export default function DPPage() {
   const activeAlgo = dpModule.algorithms.find((a) => a.id === algoId) ?? dpModule.algorithms[0]
 
   const editorSnapshot = useMemo<DPSnapshot>(() => {
-    const H = algoId === 'knapsack' ? 5 : strA.length + 1
-    const W = algoId === 'knapsack' ? capacity + 1 : strB.length + 1
+    let H = 5
+    let W = capacity + 1
+    let rowLabels = ['-']
+    let colLabels = ['-']
+
+    if (algoId === 'knapsack') {
+      H = 5
+      W = capacity + 1
+      rowLabels = ['-', 'A(w:2,v:3)', 'B(w:3,v:4)', 'C(w:4,v:5)', 'D(w:5,v:8)']
+      colLabels = Array.from({ length: W }, (_, i) => i.toString())
+    } else if (algoId === 'coin_change') {
+      const coins = coinsInput.split(',').map(s => Number(s.trim())).filter(n => !isNaN(n) && n > 0)
+      H = coins.length + 1
+      W = capacity + 1
+      rowLabels = ['-', ...coins.map(c => `Coin(${c})`)]
+      colLabels = Array.from({ length: W }, (_, i) => i.toString())
+    } else {
+      H = strA.length + 1
+      W = strB.length + 1
+      rowLabels = ['-', ...strA.split('')]
+      colLabels = ['-', ...strB.split('')]
+    }
+
     const table = Array.from({ length: H }, () => Array(W).fill(0))
-    const rowLabels = algoId === 'knapsack' ? ['-', 'A(w:2,v:3)', 'B(w:3,v:4)', 'C(w:4,v:5)', 'D(w:5,v:8)'] : ['-', ...strA.split('')]
-    const colLabels = algoId === 'knapsack' ? Array.from({ length: W }, (_, i) => i.toString()) : ['-', ...strB.split('')]
 
     return {
       table, rowLabels, colLabels,
@@ -55,7 +75,7 @@ export default function DPPage() {
       codeLine: 0,
       description: 'Configure DP inputs. Press Play to animate the matrix tabulation.',
     }
-  }, [algoId, strA, strB, capacity])
+  }, [algoId, strA, strB, capacity, coinsInput])
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -89,11 +109,13 @@ export default function DPPage() {
     const r = new DPStepRecorder()
     if (algoId === 'knapsack') {
       activeAlgo.record({ rowString: '', colString: capacity.toString() }, r)
+    } else if (algoId === 'coin_change') {
+      activeAlgo.record({ rowString: coinsInput, colString: capacity.toString() }, r)
     } else {
       activeAlgo.record({ rowString: strA, colString: strB }, r)
     }
     loadSteps(r.getSteps())
-  }, [activeAlgo, algoId, strA, strB, capacity, loadSteps])
+  }, [activeAlgo, algoId, strA, strB, capacity, coinsInput, loadSteps])
 
   useEffect(() => {
     resetDebugger()
@@ -129,13 +151,13 @@ export default function DPPage() {
           </select>
         </div>
 
-        {algoId === 'knapsack' ? (
+        {algoId === 'knapsack' && (
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Max Capacity</span>
             <input
               type="number"
               min={1} max={10}
-              value={capacity}
+              value={capacity > 10 ? 7 : capacity}
               onChange={(e) => setCapacity(Math.min(10, Math.max(1, Number(e.target.value))))}
               disabled={isPlaying}
               className="bg-zinc-800/80 border border-zinc-700/40 text-sm text-zinc-100 rounded-lg w-16 px-2 py-1 text-center"
@@ -148,7 +170,43 @@ export default function DPPage() {
               Apply W
             </button>
           </div>
-        ) : (
+        )}
+
+        {algoId === 'coin_change' && (
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Coins</span>
+              <input
+                type="text"
+                value={coinsInput}
+                onChange={(e) => setCoinsInput(e.target.value)}
+                disabled={isPlaying}
+                className="bg-zinc-800/80 border border-zinc-700/40 text-sm text-zinc-100 rounded-lg w-24 px-2 py-1 text-center"
+                placeholder="e.g. 1,2,5"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Target Amount</span>
+              <input
+                type="number"
+                min={1} max={15}
+                value={capacity}
+                onChange={(e) => setCapacity(Math.min(15, Math.max(1, Number(e.target.value))))}
+                disabled={isPlaying}
+                className="bg-zinc-800/80 border border-zinc-700/40 text-sm text-zinc-100 rounded-lg w-16 px-2 py-1 text-center"
+              />
+            </div>
+            <button
+              onClick={handleApplyConfig}
+              disabled={isPlaying}
+              className="px-3 py-1.5 bg-indigo-600/80 hover:bg-indigo-600 border border-indigo-500/20 text-xs font-medium rounded-lg text-white"
+            >
+              Apply Coins
+            </button>
+          </div>
+        )}
+
+        {(algoId === 'lcs' || algoId === 'edit_distance') && (
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">String A</span>

@@ -21,8 +21,13 @@ export abstract class BaseRenderer<TSnapshot> {
    */
   updateSnapshot(snapshot: TSnapshot): void {
     this.currentSnapshot = snapshot
+    this.requestRender()
+  }
+
+  /** Force a repaint of the current snapshot. Useful for interactive canvas panning/zooming. */
+  requestRender(): void {
     this.dirty = true
-    if (this.animFrameId === null) {
+    if (this.currentSnapshot !== null && this.animFrameId === null) {
       this.animFrameId = requestAnimationFrame(this.tick)
     }
   }

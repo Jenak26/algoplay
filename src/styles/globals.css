@@ -7,19 +7,19 @@
 
 /* ── Design Tokens (Premium Glassmorphic Dark Theme) ── */
 :root {
-  --color-bg:            #030712; /* Deep modern dark slate */
-  --color-bg-panel:      rgba(17, 24, 39, 0.7); /* Translucent dark panel */
-  --color-bg-surface:    rgba(31, 41, 55, 0.4); /* Translucent surface */
-  --color-border:        rgba(255, 255, 255, 0.08); /* Extremely thin glass border */
-  --color-border-light:  rgba(255, 255, 255, 0.15); /* More prominent border */
-  --color-text:          #f3f4f6; /* Off-white crisp text */
-  --color-text-muted:    #9ca3af; /* Elegant gray for description */
-  --color-text-muted2:   #6b7280; /* Dimmed placeholder gray */
-  --color-primary:       #6366f1; /* Vibrant Indigo */
-  --color-primary-dim:   rgba(99, 102, 241, 0.15);
-  --color-primary-glow:  rgba(99, 102, 241, 0.4);
+  --color-bg:            #05050a; /* Ultra deep modern dark blue-black */
+  --color-bg-panel:      rgba(10, 10, 18, 0.75); /* Translucent dark panel */
+  --color-bg-surface:    rgba(25, 25, 40, 0.45); /* Translucent surface */
+  --color-border:        rgba(255, 255, 255, 0.06); /* Thin glass border */
+  --color-border-light:  rgba(255, 255, 255, 0.12); /* Prominent glass border */
+  --color-text:          #f9fafb; /* Extremely clean crisp white */
+  --color-text-muted:    #a1a1aa; /* Soft zinc gray */
+  --color-text-muted2:   #52525b; /* Dark zinc gray */
+  --color-primary:       #6366f1; /* Indigo */
+  --color-primary-dim:   rgba(99, 102, 241, 0.12);
+  --color-primary-glow:  rgba(99, 102, 241, 0.35);
   --color-green:         #10b981;
-  --color-yellow:        #f59e0b;
+  --color-yellow:        #eab308;
   --color-red:           #ef4444;
   --color-orange:        #f97316;
   --color-blue:          #3b82f6;
@@ -30,64 +30,106 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-.light {
-  --color-bg:           #f9fafb;
-  --color-bg-panel:     rgba(255, 255, 255, 0.8);
-  --color-bg-surface:   rgba(243, 244, 246, 0.6);
-  --color-border:       rgba(0, 0, 0, 0.06);
-  --color-border-light: rgba(0, 0, 0, 0.12);
-  --color-text:         #111827;
-  --color-text-muted:   #4b5563;
-  --color-text-muted2:  #9ca3af;
-  --color-primary-dim:   rgba(99, 102, 241, 0.08);
-}
-
 /* ── Base Reset ── */
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
   background-color: var(--color-bg);
   background-image: 
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.08) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.06) 0px, transparent 65%);
   color:            var(--color-text);
   font-family:      var(--font-sans);
   margin:           0;
   height:           100vh;
   overflow:         hidden;
+  position:         relative;
 }
 
-/* ── Custom Utilities for Glassmorphism ── */
+/* Elegant radial grid overlay (Wow Factor!) */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1.5px, transparent 1.5px);
+  background-size: 48px 48px;
+  background-position: center;
+  mask-image: radial-gradient(circle at 50% 50%, black, transparent 85%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 85%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Custom Utilities for Glassmorphic Panels ── */
 .glass-panel {
   background: var(--color-bg-panel);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--color-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
 .glass-card {
   background: var(--color-bg-surface);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--color-border);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glass-card:hover {
-  border-color: var(--color-border-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
 }
 
-/* ── Scrollbar Customization ── */
-::-webkit-scrollbar       { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
+.glass-card:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 8px 24px -2px rgba(99, 102, 241, 0.15);
+  transform: translateY(-1px);
+}
+
+/* ── Premium Scrollbar Customization ── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.01); }
 ::-webkit-scrollbar-thumb { 
-  background: var(--color-border-light); 
+  background: rgba(255, 255, 255, 0.12); 
   border-radius: 9999px;
-  transition: background 0.2s;
+  transition: background 0.3s;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-primary);
+}
+
+/* ── Custom Form Inputs (Sleek Dark Vibe) ── */
+select, input[type="text"], input[type="number"] {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f3f4f6 !important;
+  border-radius: 10px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+select:hover, input[type="text"]:hover, input[type="number"]:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(99, 102, 241, 0.35) !important;
+}
+
+select:focus, input[type="text"]:focus, input[type="number"]:focus {
+  outline: none !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.25) !important;
+}
+
+/* ── Custom Button Overrides ── */
+button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+button:hover:not(:disabled) {
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 /* ── Focus states ── */
@@ -98,13 +140,14 @@ body {
 
 canvas { display: block; width: 100%; height: 100%; }
 
-/* ── Custom Animations ── */
+/* ── Debugger Animation Highlights ── */
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.6); }
+  0%, 100% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.2); background: rgba(99, 102, 241, 0.15); }
+  50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.45); background: rgba(99, 102, 241, 0.25); }
 }
 
 .pulse-active {
   animation: pulse-glow 2s infinite ease-in-out;
 }
+
 
