@@ -68,11 +68,7 @@ export default function TreesPage() {
   useEffect(() => {
     if (!canvasRef.current) return
     rendererRef.current = new TreeRenderer(canvasRef.current)
-    rendererRef.current.resize()
-    const onResize = () => rendererRef.current?.resize()
-    window.addEventListener('resize', onResize)
     return () => {
-      window.removeEventListener('resize', onResize)
       rendererRef.current?.destroy()
       rendererRef.current = null
     }
@@ -219,7 +215,7 @@ export default function TreesPage() {
         <span className="text-xs font-mono font-medium text-zinc-500">
           Space: {activeAlgo.spaceComplexity}
         </span>
-        {activeSnap && (
+        {activeSnap && 'traversalOutput' in activeSnap && (
           <div className="flex items-center gap-4 text-xs font-mono text-zinc-400">
             <span>
               Comparisons: <span className="text-amber-400 font-bold">{activeSnap.opCount.comparisons}</span>
@@ -227,7 +223,7 @@ export default function TreesPage() {
             <span>
               Operations: <span className="text-emerald-400 font-bold">{activeSnap.opCount.operations}</span>
             </span>
-            {activeSnap.traversalOutput.length > 0 && (
+            {activeSnap.traversalOutput && activeSnap.traversalOutput.length > 0 && (
               <span className="text-zinc-500">
                 Traversal Path: <span className="text-cyan-400 font-semibold">{`[ ${activeSnap.traversalOutput.join(', ')} ]`}</span>
               </span>
@@ -248,7 +244,7 @@ export default function TreesPage() {
           />
 
           {/* Recursion Stack overlay (Wow Factor!) */}
-          {activeSnap && (algoId === 'inorder' || algoId === 'preorder' || algoId === 'postorder') && activeSnap.queue.length > 0 && (
+          {activeSnap && 'queue' in activeSnap && (algoId === 'inorder' || algoId === 'preorder' || algoId === 'postorder') && activeSnap.queue && activeSnap.queue.length > 0 && (
             <div className="absolute top-4 right-4 bg-zinc-950/90 border border-white/10 p-4 rounded-2xl w-48 shadow-2xl glass-panel animate-in fade-in slide-in-from-right duration-300 z-20">
               <h3 className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-3 flex items-center gap-1.5 border-b border-white/5 pb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5 text-indigo-400">

@@ -44,16 +44,16 @@ export class GraphRenderer extends BaseRenderer<GraphSnapshot> {
       ctx.lineTo(vx, vy)
 
       if (isActiveEdge) {
-        ctx.strokeStyle = '#f59e0b' // Yellow-orange for active edge
+        ctx.strokeStyle = '#00dbe9' // Electric Cyan for active edge
         ctx.lineWidth = 4
       } else if (isPathEdge) {
         ctx.strokeStyle = '#eab308' // Gold for shortest path
         ctx.lineWidth = 4
       } else if (isMSTEdge) {
-        ctx.strokeStyle = '#6366f1' // Indigo for MST parent connections
+        ctx.strokeStyle = 'rgba(0, 219, 233, 0.6)' // Semi-transparent Cyan for MST connections
         ctx.lineWidth = 3
       } else {
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)' // Dim default edge
+        ctx.strokeStyle = '#3b494b' // Outline variant/Dim default edge
         ctx.lineWidth = 1.5
       }
 
@@ -62,7 +62,7 @@ export class GraphRenderer extends BaseRenderer<GraphSnapshot> {
       // Draw Edge Weight
       const mx = (ux + vx) / 2
       const my = (uy + vy) / 2
-      ctx.fillStyle = isActiveEdge || isPathEdge ? '#ffffff' : '#9ca3af'
+      ctx.fillStyle = isActiveEdge || isPathEdge ? '#ffffff' : '#b9cacb'
       ctx.font = '10px var(--font-mono, monospace)'
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
@@ -70,10 +70,10 @@ export class GraphRenderer extends BaseRenderer<GraphSnapshot> {
       // Draw background circle for weight so it doesn't overlap line
       ctx.beginPath()
       ctx.arc(mx, my, 8, 0, 2 * Math.PI)
-      ctx.fillStyle = '#111827'
+      ctx.fillStyle = '#0e0e0e' // Surface container lowest
       ctx.fill()
       
-      ctx.fillStyle = isActiveEdge || isPathEdge ? '#eab308' : '#9ca3af'
+      ctx.fillStyle = isActiveEdge ? '#00dbe9' : isPathEdge ? '#eab308' : '#b9cacb'
       ctx.fillText(edge.weight.toString(), mx, my)
     }
 
@@ -89,22 +89,26 @@ export class GraphRenderer extends BaseRenderer<GraphSnapshot> {
       const hasDistance = distance[node.id] !== undefined && distance[node.id] !== Infinity
 
       // Determine fill and stroke colors
-      let fillStyle = '#1f2937' // Default dark gray
-      let strokeStyle = 'rgba(255, 255, 255, 0.2)'
+      let fillStyle = '#1c1b1b' // Surface container low
+      let strokeStyle = '#3b494b' // Outline variant
       let lineWidth = 2
+      let labelColor = '#e5e2e1' // on-surface
 
       if (isActive) {
-        fillStyle = '#4f46e5' // Bright Indigo
+        fillStyle = '#00dbe9' // Electric Cyan active
         strokeStyle = '#ffffff'
         lineWidth = 3
+        labelColor = '#000000' // Black text for high contrast on Cyan
       } else if (inPath) {
-        fillStyle = '#b45309' // Warm Amber
-        strokeStyle = '#f59e0b'
+        fillStyle = '#eab308' // Gold path
+        strokeStyle = '#ffffff'
         lineWidth = 2.5
+        labelColor = '#000000' // Black text for high contrast on Gold
       } else if (isVisited) {
-        fillStyle = '#312e81' // Deep purple-blue
-        strokeStyle = '#818cf8'
+        fillStyle = 'rgba(0, 227, 131, 0.15)' // Transparent Emerald success
+        strokeStyle = '#00e383' // Emerald
         lineWidth = 2
+        labelColor = '#00e383'
       }
 
       // Draw Vertex Circle
@@ -117,7 +121,7 @@ export class GraphRenderer extends BaseRenderer<GraphSnapshot> {
       ctx.stroke()
 
       // Draw Vertex Label
-      ctx.fillStyle = '#ffffff'
+      ctx.fillStyle = labelColor
       ctx.font = 'bold 12px var(--font-sans, sans-serif)'
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
@@ -125,11 +129,11 @@ export class GraphRenderer extends BaseRenderer<GraphSnapshot> {
 
       // Draw Distance label if computed (for Dijkstra)
       if (hasDistance && !isActive && !inPath) {
-        ctx.fillStyle = '#818cf8'
+        ctx.fillStyle = isVisited ? '#00e383' : '#b9cacb'
         ctx.font = '10px var(--font-mono, monospace)'
         ctx.fillText(`d:${distance[node.id]}`, nx, ny + radius + 12)
       } else if (distance[node.id] === Infinity && !isActive) {
-        ctx.fillStyle = '#6b7280'
+        ctx.fillStyle = '#849495' // Outline gray
         ctx.font = '10px var(--font-mono, monospace)'
         ctx.fillText('d:∞', nx, ny + radius + 12)
       }

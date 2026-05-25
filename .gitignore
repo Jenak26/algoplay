@@ -13,3 +13,7 @@ Thumbs.db
 # Ignore compiled JS files in src
 src/**/*.js
 src/**/*.jsx
+
+# Temp design extracts & reference files
+stitch_algoplay_algorithm_debugger_visualizer.zip
+temp_zip_extract/

@@ -10,6 +10,7 @@ export interface ModuleNavEntry {
 }
 
 export const MODULE_NAV: ModuleNavEntry[] = [
+  { id: 'dashboard',   name: 'Dashboard',     icon: '🏠', route: '/dashboard'   },
   { id: 'sorting',     name: 'Sorting',       icon: '⚡', route: '/sorting'     },
   { id: 'pathfinding', name: 'Pathfinding',   icon: '🗺', route: '/pathfinding' },
   { id: 'graphs',      name: 'Graphs',        icon: '🕸', route: '/graphs'      },

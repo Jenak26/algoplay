@@ -21,13 +21,8 @@ export function useCanvasRenderer<TSnapshot>(
   useEffect(() => {
     if (!canvasRef.current) return
     rendererRef.current = new RendererClass(canvasRef.current)
-    rendererRef.current.resize()
-
-    const onResize = () => rendererRef.current?.resize()
-    window.addEventListener('resize', onResize)
 
     return () => {
-      window.removeEventListener('resize', onResize)
       rendererRef.current?.destroy()
       rendererRef.current = null
     }

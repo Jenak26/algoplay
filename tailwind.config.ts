@@ -6,13 +6,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg:      { DEFAULT: '#09090b', panel: '#18181b', surface: '#0d0d0f' },
-        border:  { DEFAULT: '#27272a', light: '#3f3f46' },
-        primary: { DEFAULT: '#6366f1', dim: 'rgba(99,102,241,0.1)' },
+        bg:      { DEFAULT: 'var(--color-bg)', panel: 'var(--color-bg-panel)', surface: 'var(--color-bg-surface)' },
+        border:  { DEFAULT: 'var(--color-border)', light: 'var(--color-border-light)' },
+        primary: { DEFAULT: 'var(--color-primary)', dim: 'var(--color-primary-dim)' },
+        text:    { DEFAULT: 'var(--color-text)', muted: 'var(--color-text-muted)' },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['Courier New', 'Courier', 'monospace'],
+        sans: ['var(--font-sans)', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['var(--font-mono)', 'Courier New', 'Courier', 'monospace'],
       },
     },
   },

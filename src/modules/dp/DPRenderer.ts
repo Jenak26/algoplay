@@ -23,8 +23,8 @@ export class DPRenderer extends BaseRenderer<DPSnapshot> {
     const cellHeight = (h - labelHeight) / rows
 
     // Draw Column Labels (Headers)
-    ctx.fillStyle = '#6b7280'
-    ctx.font = 'bold 11px var(--font-sans, sans-serif)'
+    ctx.fillStyle = '#b9cacb' // on-surface-variant
+    ctx.font = 'bold 11px var(--font-mono, monospace)' // label-caps style
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     for (let c = 0; c < cols; c++) {
@@ -35,6 +35,7 @@ export class DPRenderer extends BaseRenderer<DPSnapshot> {
 
     // Draw Row Labels (Headers)
     ctx.textAlign = 'left'
+    ctx.font = 'bold 11px var(--font-mono, monospace)'
     for (let r = 0; r < rows; r++) {
       const cx = 10
       const cy = labelHeight + r * cellHeight + cellHeight / 2
@@ -51,20 +52,20 @@ export class DPRenderer extends BaseRenderer<DPSnapshot> {
         const isDependency = dependencyCells.some(cell => cell.r === r && cell.c === c)
 
         // Select background cell fill
-        let fillStyle = 'rgba(255, 255, 255, 0.02)'
-        let strokeStyle = 'rgba(255, 255, 255, 0.06)'
+        let fillStyle = '#131313' // Near-black default cell background
+        let strokeStyle = '#3b494b' // Outline variant
         let lineWidth = 1
 
         if (isCurrent) {
-          fillStyle = 'rgba(99, 102, 241, 0.2)' // Indigo glow for active cell
-          strokeStyle = '#6366f1'
+          fillStyle = 'rgba(0, 219, 233, 0.15)' // Cyan active glow
+          strokeStyle = '#00dbe9' // Cyan
           lineWidth = 2
         } else if (isDependency) {
-          fillStyle = 'rgba(16, 185, 129, 0.15)' // Green glow for dependencies / backtracking path
-          strokeStyle = '#10b981'
+          fillStyle = 'rgba(0, 227, 131, 0.15)' // Emerald dependency glow
+          strokeStyle = '#00e383' // Emerald
           lineWidth = 1.5
         } else if (currentRow !== null && currentCol !== null && (r < currentRow || (r === currentRow && c < currentCol))) {
-          fillStyle = 'rgba(255, 255, 255, 0.05)' // Dim gray for completed cells
+          fillStyle = '#0e0e0e' // Surface container lowest for computed/completed cells
         }
 
         ctx.fillStyle = fillStyle
@@ -76,7 +77,7 @@ export class DPRenderer extends BaseRenderer<DPSnapshot> {
 
         // Draw Cell Value
         const val = table[r][c]
-        ctx.fillStyle = isCurrent ? '#a5b4fc' : isDependency ? '#34d399' : '#ffffff'
+        ctx.fillStyle = isCurrent ? '#00dbe9' : isDependency ? '#00e383' : '#e5e2e1'
         ctx.font = '13px var(--font-mono, monospace)'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
@@ -90,7 +91,7 @@ export class DPRenderer extends BaseRenderer<DPSnapshot> {
       const activeY = labelHeight + currentRow * cellHeight + cellHeight / 2
 
       ctx.lineWidth = 2.5
-      ctx.strokeStyle = '#f59e0b' // Gold line
+      ctx.strokeStyle = '#eab308' // Gold line for lookback paths
       
       for (const dep of dependencyCells) {
         const depX = labelWidth + dep.c * cellWidth + cellWidth / 2
@@ -112,7 +113,7 @@ export class DPRenderer extends BaseRenderer<DPSnapshot> {
         // Draw tiny circle at target lookback cell center
         ctx.beginPath()
         ctx.arc(depX, depY, 4, 0, 2 * Math.PI)
-        ctx.fillStyle = '#f59e0b'
+        ctx.fillStyle = '#eab308'
         ctx.fill()
       }
     }

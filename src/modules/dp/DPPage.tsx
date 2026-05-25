@@ -266,7 +266,7 @@ export default function DPPage() {
         <span className="text-xs font-mono font-medium text-zinc-500">
           Space: {activeAlgo.spaceComplexity}
         </span>
-        {activeSnap && (
+        {activeSnap && 'opCount' in activeSnap && (
           <div className="flex items-center gap-4 text-xs font-mono text-zinc-400">
             <span>
               Comparisons: <span className="text-amber-400 font-bold">{activeSnap.opCount.comparisons}</span>

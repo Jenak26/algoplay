@@ -7,16 +7,25 @@ export abstract class BaseRenderer<TSnapshot> {
   private animFrameId:     number | null  = null
   private dirty:           boolean        = false
   private currentSnapshot: TSnapshot | null = null
+  private resizeObserver:  ResizeObserver | null = null
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas
     const ctx = canvas.getContext('2d')
     if (!ctx) throw new Error('Could not get 2D canvas context')
     this.ctx = ctx
+
+    // Setup ResizeObserver to handle layout and routing changes
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.resize()
+      })
+      this.resizeObserver.observe(canvas)
+    }
   }
 
   /**
-   * Called from React (via useCanvasRenderer hook) when the step changes.
+   * Called from React when the step changes.
    * Marks the renderer dirty and schedules a repaint via rAF.
    */
   updateSnapshot(snapshot: TSnapshot): void {
@@ -40,7 +49,7 @@ export abstract class BaseRenderer<TSnapshot> {
     }
   }
 
-  /** Resize canvas to match its CSS size. Call on window resize. */
+  /** Resize canvas to match its CSS size. */
   resize(): void {
     const { offsetWidth: w, offsetHeight: h } = this.canvas
     if (this.canvas.width !== w || this.canvas.height !== h) {
@@ -58,8 +67,12 @@ export abstract class BaseRenderer<TSnapshot> {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 
-  /** Cancel pending rAF. Call in React cleanup (useEffect return). */
+  /** Cancel pending rAF and disconnect ResizeObserver. */
   destroy(): void {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect()
+      this.resizeObserver = null
+    }
     if (this.animFrameId !== null) {
       cancelAnimationFrame(this.animFrameId)
       this.animFrameId = null

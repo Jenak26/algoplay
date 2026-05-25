@@ -21,9 +21,9 @@ export function CodeView({ snippets }: Props) {
     : snippets.pseudocode
 
   const tabs: { key: 'pseudocode' | 'python' | 'javascript'; label: string }[] = [
-    { key: 'pseudocode', label: 'Pseudo' },
-    { key: 'python',     label: 'Python' },
-    { key: 'javascript', label: 'JS'     },
+    { key: 'pseudocode', label: 'PSEUDOCODE' },
+    { key: 'python',     label: 'PYTHON' },
+    { key: 'javascript', label: 'JAVASCRIPT' },
   ]
 
   const breakpoints      = useDebuggerStore((s) => s.breakpoints)
@@ -31,25 +31,24 @@ export function CodeView({ snippets }: Props) {
 
   return (
     <div
-      className="flex flex-col h-full overflow-hidden"
+      className="flex flex-col h-full overflow-hidden bg-bg-panel"
       style={{
-        background: 'var(--color-bg-surface, #18181b)',
-        borderLeft: '1px solid var(--color-border, #3f3f46)',
+        borderLeft: '1px solid var(--color-border)',
       }}
     >
       <div
-        className="flex shrink-0"
-        style={{ borderBottom: '1px solid var(--color-border, #3f3f46)' }}
+        className="flex shrink-0 bg-bg"
+        style={{ borderBottom: '1px solid var(--color-border)' }}
       >
         {tabs.map((t) => (
           <button
             key={t.key}
             onClick={() => setLanguage(t.key)}
-            className="px-3 py-2 text-xs font-semibold transition-colors"
+            className="px-4 py-2.5 text-[10px] tracking-wider font-mono font-semibold transition-all border-r border-border"
             style={{
-              color:        codeLanguage === t.key ? '#fff' : 'var(--color-text-muted, #a1a1aa)',
-              borderBottom: codeLanguage === t.key ? '2px solid var(--color-primary, #6366f1)' : '2px solid transparent',
-              background:   'transparent',
+              color:        codeLanguage === t.key ? 'var(--color-primary)' : 'var(--color-text-muted)',
+              borderBottom: codeLanguage === t.key ? '2px solid var(--color-primary)' : '2px solid transparent',
+              background:   codeLanguage === t.key ? 'var(--color-bg-surface)' : 'transparent',
             }}
           >
             {t.label}
@@ -57,30 +56,30 @@ export function CodeView({ snippets }: Props) {
         ))}
       </div>
 
-      <div className="flex-1 overflow-y-auto p-3 font-mono text-xs leading-6 select-none">
+      <div className="flex-1 overflow-y-auto p-3 font-mono text-[11px] leading-6 select-none bg-bg-panel">
         {lines.map((line, i) => {
           const hasBP = !!breakpoints[i]
+          const isActive = i === activeLine
           return (
             <div
               key={i}
-              className="flex items-center gap-2 px-1 rounded group cursor-pointer hover:bg-white/5"
+              className={`flex items-center gap-2 px-1.5 transition-all duration-100 group cursor-pointer hover:bg-white/5 ${isActive ? 'pulse-active' : ''}`}
               onClick={() => toggleBreakpoint(i)}
               style={{
-                background: i === activeLine ? 'rgba(99,102,241,0.15)' : undefined,
-                color:      i === activeLine ? '#e0e0ff' : 'var(--color-text-muted, #a1a1aa)',
-                borderLeft: i === activeLine ? '2px solid var(--color-primary, #6366f1)' : '2px solid transparent',
+                color:      isActive ? 'var(--color-text)' : 'var(--color-text-muted)',
+                borderLeft: isActive ? '3px solid var(--color-primary)' : '3px solid transparent',
               }}
             >
-              {/* Breakpoint margin indicator */}
-              <span className="shrink-0 w-3.5 h-3.5 flex items-center justify-center relative">
+              {/* Breakpoint margin indicator - sharp square for technical vibe */}
+              <span className="shrink-0 w-3 h-3 flex items-center justify-center relative">
                 {hasBP ? (
-                  <span className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444]" title="Click to remove breakpoint" />
+                  <span className="w-2 h-2 bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.7)]" title="Click to remove breakpoint" />
                 ) : (
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity" title="Click to set breakpoint" />
+                  <span className="w-1.5 h-1.5 bg-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity" title="Click to set breakpoint" />
                 )}
               </span>
 
-              <span className="shrink-0 w-5 text-right font-semibold select-none" style={{ color: 'var(--color-border-light, #52525b)' }}>
+              <span className="shrink-0 w-5 text-right font-semibold select-none pr-1" style={{ color: 'var(--color-border-light)' }}>
                 {i + 1}
               </span>
               <span className="whitespace-pre">{line || ' '}</span>
@@ -91,15 +90,16 @@ export function CodeView({ snippets }: Props) {
 
       {steps[currentStep] && (
         <div
-          className="shrink-0 px-3 py-2 text-xs truncate"
+          className="shrink-0 px-4 py-3 text-xs font-mono bg-bg border-t border-border"
           style={{
-            borderTop: '1px solid var(--color-border, #3f3f46)',
-            color: 'var(--color-text-muted, #a1a1aa)',
+            color: 'var(--color-text)',
           }}
         >
-          {steps[currentStep].description}
+          <div className="text-[10px] text-text-muted uppercase tracking-wider mb-1 font-semibold">State / Instruction</div>
+          <div className="whitespace-pre-wrap">{steps[currentStep].description}</div>
         </div>
       )}
     </div>
   )
 }
+

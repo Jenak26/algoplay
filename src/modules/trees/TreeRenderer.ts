@@ -111,10 +111,10 @@ export class TreeRenderer extends BaseRenderer<TreeSnapshot> {
       ctx.lineTo(cx, cy)
 
       if (isActiveEdge) {
-        ctx.strokeStyle = '#f59e0b' // Yellow-orange for active traversal edge
+        ctx.strokeStyle = '#00dbe9' // Electric Cyan for active traversal edge
         ctx.lineWidth = 4.5
       } else {
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)'
+        ctx.strokeStyle = '#3b494b' // Outline variant
         ctx.lineWidth = 2
       }
       ctx.stroke()
@@ -129,18 +129,21 @@ export class TreeRenderer extends BaseRenderer<TreeSnapshot> {
       const isVisited = visited[node.id]
       const isActive = activeNode === node.id
 
-      let fillStyle = '#1f2937' // Default dark gray
-      let strokeStyle = 'rgba(255, 255, 255, 0.2)'
+      let fillStyle = '#1c1b1b' // Default low surface
+      let strokeStyle = '#3b494b' // Outline variant
       let lineWidth = 2
+      let labelColor = '#e5e2e1' // on-surface
 
       if (isActive) {
-        fillStyle = '#4f46e5' // Bright Indigo
+        fillStyle = '#00dbe9' // Electric Cyan
         strokeStyle = '#ffffff'
         lineWidth = 3
+        labelColor = '#000000' // Black label on Cyan
       } else if (isVisited) {
-        fillStyle = '#312e81' // Deep purple-blue
-        strokeStyle = '#818cf8'
+        fillStyle = 'rgba(0, 227, 131, 0.15)' // Transparent Emerald
+        strokeStyle = '#00e383' // Emerald
         lineWidth = 2
+        labelColor = '#00e383'
       }
 
       // Draw Node Circle
@@ -153,7 +156,7 @@ export class TreeRenderer extends BaseRenderer<TreeSnapshot> {
       ctx.stroke()
 
       // Draw Node Value
-      ctx.fillStyle = '#ffffff'
+      ctx.fillStyle = labelColor
       ctx.font = 'bold 12px var(--font-sans, sans-serif)'
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'

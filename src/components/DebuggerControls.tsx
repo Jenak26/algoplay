@@ -19,19 +19,19 @@ export function DebuggerControls({ compact = false }: Props) {
   const atEnd   = totalSteps === 0 || currentStep >= totalSteps - 1
   const hasSteps = totalSteps > 0
 
-  const btnBase = 'flex items-center justify-center rounded-xl transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed border'
+  const btnBase = 'flex items-center justify-center transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed border'
   const btnSize = compact ? 'w-8 h-8 text-xs' : 'w-10 h-10 text-sm'
 
   return (
-    <div className="flex items-center gap-3 select-none bg-white/5 border border-white/5 px-3 py-1.5 rounded-2xl">
+    <div className="flex items-center gap-3 select-none bg-bg-surface border border-border px-3 py-1.5">
       <button
         onClick={stepBackward}
         disabled={atStart || !hasSteps}
-        className={`${btnBase} ${btnSize} bg-zinc-800/40 border-zinc-700/20 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800`}
+        className={`${btnBase} ${btnSize} bg-bg border-border text-text-muted hover:text-text hover:border-border-light`}
         aria-label="Step backward"
         title="Step backward (Left arrow)"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
       </button>
@@ -39,14 +39,14 @@ export function DebuggerControls({ compact = false }: Props) {
       <button
         onClick={isPlaying ? pause : play}
         disabled={!hasSteps || (atEnd && !isPlaying)}
-        className={`${btnBase} ${compact ? 'w-9 h-9' : 'w-11 h-11'} rounded-full transition-transform hover:scale-105 active:scale-95`}
+        className={`${btnBase} ${compact ? 'w-9 h-9' : 'w-11 h-11'} hover:scale-105 active:scale-95`}
         style={{ 
           background: hasSteps 
-            ? 'linear-gradient(135deg, var(--color-primary), var(--color-purple))' 
-            : 'var(--color-border, #3f3f46)', 
-          borderColor: hasSteps ? 'transparent' : 'var(--color-border-light)',
-          color: '#fff',
-          boxShadow: hasSteps ? '0 4px 15px rgba(99, 102, 241, 0.3)' : 'none'
+            ? 'var(--color-primary)' 
+            : 'transparent', 
+          borderColor: hasSteps ? 'transparent' : 'var(--color-border)',
+          color: hasSteps ? '#000000' : 'var(--color-text-muted)',
+          boxShadow: hasSteps ? '0 0 12px rgba(0, 219, 233, 0.35)' : 'none'
         }}
         aria-label={isPlaying ? 'Pause' : 'Play'}
         title={isPlaying ? 'Pause (Space)' : 'Play (Space)'}
@@ -65,11 +65,11 @@ export function DebuggerControls({ compact = false }: Props) {
       <button
         onClick={stepForward}
         disabled={atEnd || !hasSteps}
-        className={`${btnBase} ${btnSize} bg-zinc-800/40 border-zinc-700/20 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800`}
+        className={`${btnBase} ${btnSize} bg-bg border-border text-text-muted hover:text-text hover:border-border-light`}
         aria-label="Step forward"
         title="Step forward (Right arrow)"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
       </button>
@@ -81,13 +81,13 @@ export function DebuggerControls({ compact = false }: Props) {
         value={currentStep}
         onChange={(e) => seekTo(Number(e.target.value))}
         disabled={!hasSteps}
-        className="flex-1 h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-500 hover:accent-indigo-400 focus:outline-none disabled:opacity-30 disabled:cursor-not-allowed"
+        className="flex-1 h-1 bg-bg border border-border appearance-none cursor-pointer accent-[var(--color-primary)] disabled:opacity-30 disabled:cursor-not-allowed"
         style={{ minWidth: compact ? 80 : 140 }}
         aria-label="Seek to step"
       />
 
       <span
-        className="text-xs font-mono font-semibold tabular-nums shrink-0 text-zinc-400 text-center"
+        className="text-xs font-mono font-semibold tabular-nums shrink-0 text-text-muted text-center"
         style={{ minWidth: compact ? 60 : 70 }}
       >
         {hasSteps ? `${currentStep + 1}/${totalSteps}` : '—/—'}
