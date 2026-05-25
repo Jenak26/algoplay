@@ -6,6 +6,7 @@ import PathfindingPage   from '@/pages/PathfindingPage'
 import GraphsPage        from '@/pages/GraphsPage'
 import TreesPage         from '@/pages/TreesPage'
 import DPPage            from '@/pages/DPPage'
+import BotPage           from '@/pages/BotPage'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="graphs"      element={<GraphsPage />} />
           <Route path="trees"       element={<TreesPage />} />
           <Route path="dp"          element={<DPPage />} />
+          <Route path="bot"         element={<BotPage />} />
           <Route path="*"           element={<Navigate to="/sorting" replace />} />
         </Route>
       </Routes>
