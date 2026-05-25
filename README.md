@@ -7,12 +7,12 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-v6.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Zustand](https://img.shields.io/badge/Zustand-v5.0-orange?style=for-the-badge)](https://github.com/pmndrs/zustand)
-[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel&logoColor=white)](https://algoplay-dpu7q6owi-janak-kabras-projects.vercel.app/dashboard)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
-**A high-performance, interactive, and beautifully designed sorting & pathfinding debugger built for modern browsers.**
+**A high-performance, interactive, and beautifully designed sorting, pathfinding, graphs, BST trees, and DP debugger built for modern browsers.**
 
-[Live Application](https://algoplay-three.vercel.app/) • [Report Bug](https://github.com/Jenak26/algoplay/issues) • [Request Feature](https://github.com/Jenak26/algoplay/issues)
+[Live Application](https://algoplay-dpu7q6owi-janak-kabras-projects.vercel.app/dashboard) • [Report Bug](https://github.com/Jenak26/algoplay/issues) • [Request Feature](https://github.com/Jenak26/algoplay/issues)
 
 </div>
 
