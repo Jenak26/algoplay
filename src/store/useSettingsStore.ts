@@ -39,7 +39,7 @@ const _store = create<SettingsState & SettingsActions>()(
       toggleComplexity: () => set({ showComplexityChart: !get().showComplexityChart }),
       toggleCodeView:   () => set({ showCodeView: !get().showCodeView }),
     }),
-    { name: 'algoplay-settings' }
+    { name: 'deterministic-debugger-settings' }
   )
 )
 

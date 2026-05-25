@@ -76,7 +76,7 @@ export default function DashboardPage() {
               <span className="text-text-muted text-[11px] font-mono">v2.4.0 • Obsidian Theme Loaded</span>
             </div>
             <h1 className="text-2xl font-black tracking-tight text-white mb-2">
-              ALGOPLAY DEVELOPS & VISUALIZES DSA
+              DETERMINISTIC ALGORITHM EXECUTION DEBUGGER
             </h1>
             <p className="text-text-muted text-xs max-w-xl leading-relaxed">
               Welcome to the premium algorithm debugger and visualizer. This interactive workspace 
@@ -185,7 +185,7 @@ export default function DashboardPage() {
                 ⏱️ COMPLEXITY CHEAT SHEET
               </h2>
               <p className="text-text-muted text-xs leading-relaxed mb-4">
-                Reference guidelines for core algorithm complexities visualized inside AlgoPlay.
+                Reference guidelines for core algorithm complexities visualized inside this debugger.
               </p>
               
               <div className="flex flex-col gap-3 font-mono text-xs">

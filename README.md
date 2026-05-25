@@ -1,4 +1,4 @@
-# ⚡ AlgoPlay — Interactive Algorithm Visualizer & Debugger
+# ⚡ Deterministic Algorithm Execution Debugger
 
 <div align="center">
 
@@ -12,7 +12,7 @@
 
 **A high-performance, interactive, and beautifully designed sorting, pathfinding, graphs, BST trees, and DP debugger built for modern browsers.**
 
-[Live Application](https://algoplay-dpu7q6owi-janak-kabras-projects.vercel.app/dashboard) • [Report Bug](https://github.com/Jenak26/algoplay/issues) • [Request Feature](https://github.com/Jenak26/algoplay/issues)
+[Live Application](https://algoplay-dpu7q6owi-janak-kabras-projects.vercel.app/dashboard) • [Report Bug](https://github.com/Jenak26/deterministic-algorithm-execution-debugger/issues) • [Request Feature](https://github.com/Jenak26/deterministic-algorithm-execution-debugger/issues)
 
 </div>
 
@@ -20,9 +20,9 @@
 
 ## 🎯 Value Proposition & Performance
 
-**AlgoPlay** was built to bridge the gap between abstract algorithmic concepts and visual intuition. Instead of treating algorithms as black boxes that run instantly, AlgoPlay acts as a **full-featured debugger** for code execution. 
+**Deterministic Algorithm Execution Debugger** was built to bridge the gap between abstract algorithmic concepts and visual intuition. Instead of treating algorithms as black boxes that run instantly, this debugger acts as a **full-featured debugger** for code execution. 
 
-Unlike basic visualizers that suffer from DOM-rendering bottlenecks, AlgoPlay is engineered for exceptional performance:
+Unlike basic visualizers that suffer from DOM-rendering bottlenecks, it is engineered for exceptional performance:
 *   **60 FPS Hardware-Accelerated Canvas Rendering:** Custom canvas-based renderer bypasses React DOM diffing overhead, ensuring butter-smooth animations even with large arrays or dense grids.
 *   **Zero-Allocation Step Recorder:** Algorithms run to completion instantly in a lightweight virtual container, generating a queue of immutable state snapshots (`StepSnapshot`/`GridSnapshot`) that are scrubbed, stepped, or replayed dynamically.
 *   **Sub-Millisecond URL State Sharing:** Compresses entire grid states, wall layouts, and selected algorithms into a URL-safe hash using `LZ-String` (Lempel-Ziv-Welch compression) for instant sharing.
@@ -103,7 +103,7 @@ flowchart TD
 ## 📁 Directory Structure
 
 ```text
-algoplay/
+deterministic-algorithm-execution-debugger/
 ├── public/                  # Static assets & icons
 ├── src/
 │   ├── components/          # Reusable UI components (AppShell, DebuggerControls, CodeView, etc.)
@@ -136,8 +136,8 @@ algoplay/
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Jenak26/algoplay.git
-    cd algoplay
+    git clone https://github.com/Jenak26/deterministic-algorithm-execution-debugger.git
+    cd deterministic-algorithm-execution-debugger
     ```
 
 2.  **Install dependencies:**

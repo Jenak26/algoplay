@@ -15,7 +15,7 @@ export function Sidebar() {
           color: '#00dbe9',
         }}
       >
-        <span>AP</span>
+        <span>DD</span>
         <div className="absolute inset-0 bg-[#00dbe9]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 

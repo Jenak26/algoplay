@@ -24,7 +24,7 @@ export function TopBar() {
           {activeModule?.icon ?? '⚡'}
         </div>
         <div className="flex flex-col">
-          <span className="font-mono font-bold text-xs text-zinc-100 tracking-wide">{activeModule?.name ?? 'AlgoPlay'}</span>
+          <span className="font-mono font-bold text-xs text-zinc-100 tracking-wide">{activeModule?.name ?? 'Debugger'}</span>
         </div>
       </div>
 
