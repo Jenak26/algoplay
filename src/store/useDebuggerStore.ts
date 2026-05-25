@@ -9,6 +9,7 @@ interface DebuggerState {
   totalSteps:    number
   isPlaying:     boolean
   playbackSpeed: number
+  breakpoints:   Record<number, boolean>
 }
 
 interface DebuggerActions {
@@ -19,6 +20,8 @@ interface DebuggerActions {
   stepBackward: () => void
   seekTo:       (stepIndex: number) => void
   reset:        () => void
+  toggleBreakpoint: (line: number) => void
+  clearBreakpoints: () => void
 }
 
 const INITIAL_STATE: DebuggerState = {
@@ -27,6 +30,7 @@ const INITIAL_STATE: DebuggerState = {
   totalSteps:    0,
   isPlaying:     false,
   playbackSpeed: 60,
+  breakpoints:   {},
 }
 
 type DebuggerStoreType = UseBoundStore<StoreApi<DebuggerState & DebuggerActions>> & {
@@ -40,8 +44,16 @@ const _store = create<DebuggerState & DebuggerActions>()((set, get) => ({
   play:  () => set({ isPlaying: true }),
   pause: () => set({ isPlaying: false }),
   stepForward: () => {
-    const { currentStep, totalSteps } = get()
-    if (currentStep < totalSteps - 1) set({ currentStep: currentStep + 1 })
+    const { currentStep, totalSteps, breakpoints, steps } = get()
+    if (currentStep < totalSteps - 1) {
+      const nextStep = currentStep + 1
+      const nextLine = steps[nextStep]?.codeLine
+      if (nextLine !== undefined && breakpoints[nextLine] && get().isPlaying) {
+        set({ isPlaying: false, currentStep: nextStep })
+      } else {
+        set({ currentStep: nextStep })
+      }
+    }
   },
   stepBackward: () => {
     const { currentStep } = get()
@@ -52,9 +64,16 @@ const _store = create<DebuggerState & DebuggerActions>()((set, get) => ({
     const clamped = Math.max(0, Math.min(stepIndex, totalSteps - 1))
     set({ currentStep: clamped })
   },
+  toggleBreakpoint: (line) => {
+    const bps = { ...get().breakpoints }
+    bps[line] = !bps[line]
+    set({ breakpoints: bps })
+  },
+  clearBreakpoints: () => set({ breakpoints: {} }),
   reset: () => set({ ...INITIAL_STATE }),
 }))
 
 export const useDebuggerStore: DebuggerStoreType = Object.assign(_store, {
   getInitialState: () => ({ ...INITIAL_STATE }),
 })
+

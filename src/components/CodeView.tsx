@@ -26,6 +26,9 @@ export function CodeView({ snippets }: Props) {
     { key: 'javascript', label: 'JS'     },
   ]
 
+  const breakpoints      = useDebuggerStore((s) => s.breakpoints)
+  const toggleBreakpoint  = useDebuggerStore((s) => s.toggleBreakpoint)
+
   return (
     <div
       className="flex flex-col h-full overflow-hidden"
@@ -54,23 +57,36 @@ export function CodeView({ snippets }: Props) {
         ))}
       </div>
 
-      <div className="flex-1 overflow-y-auto p-3 font-mono text-xs leading-6">
-        {lines.map((line, i) => (
-          <div
-            key={i}
-            className="flex gap-2 px-1 rounded"
-            style={{
-              background: i === activeLine ? 'rgba(99,102,241,0.15)' : 'transparent',
-              color:      i === activeLine ? '#e0e0ff' : 'var(--color-text-muted, #a1a1aa)',
-              borderLeft: i === activeLine ? '2px solid var(--color-primary, #6366f1)' : '2px solid transparent',
-            }}
-          >
-            <span className="shrink-0 w-5 text-right" style={{ color: 'var(--color-border-light, #52525b)' }}>
-              {i + 1}
-            </span>
-            <span>{line || ' '}</span>
-          </div>
-        ))}
+      <div className="flex-1 overflow-y-auto p-3 font-mono text-xs leading-6 select-none">
+        {lines.map((line, i) => {
+          const hasBP = !!breakpoints[i]
+          return (
+            <div
+              key={i}
+              className="flex items-center gap-2 px-1 rounded group cursor-pointer hover:bg-white/5"
+              onClick={() => toggleBreakpoint(i)}
+              style={{
+                background: i === activeLine ? 'rgba(99,102,241,0.15)' : undefined,
+                color:      i === activeLine ? '#e0e0ff' : 'var(--color-text-muted, #a1a1aa)',
+                borderLeft: i === activeLine ? '2px solid var(--color-primary, #6366f1)' : '2px solid transparent',
+              }}
+            >
+              {/* Breakpoint margin indicator */}
+              <span className="shrink-0 w-3.5 h-3.5 flex items-center justify-center relative">
+                {hasBP ? (
+                  <span className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444]" title="Click to remove breakpoint" />
+                ) : (
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity" title="Click to set breakpoint" />
+                )}
+              </span>
+
+              <span className="shrink-0 w-5 text-right font-semibold select-none" style={{ color: 'var(--color-border-light, #52525b)' }}>
+                {i + 1}
+              </span>
+              <span className="whitespace-pre">{line || ' '}</span>
+            </div>
+          )
+        })}
       </div>
 
       {steps[currentStep] && (

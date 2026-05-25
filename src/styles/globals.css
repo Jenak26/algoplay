@@ -1,20 +1,23 @@
 /* src/styles/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Design Tokens (dark theme defaults) ── */
+/* ── Design Tokens (Premium Glassmorphic Dark Theme) ── */
 :root {
-  --color-bg:            #09090b;
-  --color-bg-panel:      #18181b;
-  --color-bg-surface:    #0d0d0f;
-  --color-border:        #27272a;
-  --color-border-light:  #3f3f46;
-  --color-text:          #e4e4e7;
-  --color-text-muted:    #71717a;
-  --color-text-muted2:   #a1a1aa;
-  --color-primary:       #6366f1;
-  --color-primary-dim:   rgba(99, 102, 241, 0.1);
+  --color-bg:            #030712; /* Deep modern dark slate */
+  --color-bg-panel:      rgba(17, 24, 39, 0.7); /* Translucent dark panel */
+  --color-bg-surface:    rgba(31, 41, 55, 0.4); /* Translucent surface */
+  --color-border:        rgba(255, 255, 255, 0.08); /* Extremely thin glass border */
+  --color-border-light:  rgba(255, 255, 255, 0.15); /* More prominent border */
+  --color-text:          #f3f4f6; /* Off-white crisp text */
+  --color-text-muted:    #9ca3af; /* Elegant gray for description */
+  --color-text-muted2:   #6b7280; /* Dimmed placeholder gray */
+  --color-primary:       #6366f1; /* Vibrant Indigo */
+  --color-primary-dim:   rgba(99, 102, 241, 0.15);
+  --color-primary-glow:  rgba(99, 102, 241, 0.4);
   --color-green:         #10b981;
   --color-yellow:        #f59e0b;
   --color-red:           #ef4444;
@@ -22,41 +25,86 @@
   --color-blue:          #3b82f6;
   --color-purple:        #a855f7;
   --color-cyan:          #06b6d4;
+
+  --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 .light {
-  --color-bg:           #fafafa;
-  --color-bg-panel:     #ffffff;
-  --color-bg-surface:   #f4f4f5;
-  --color-border:       #e4e4e7;
-  --color-border-light: #d4d4d8;
-  --color-text:         #18181b;
-  --color-text-muted:   #71717a;
-  --color-text-muted2:  #52525b;
+  --color-bg:           #f9fafb;
+  --color-bg-panel:     rgba(255, 255, 255, 0.8);
+  --color-bg-surface:   rgba(243, 244, 246, 0.6);
+  --color-border:       rgba(0, 0, 0, 0.06);
+  --color-border-light: rgba(0, 0, 0, 0.12);
+  --color-text:         #111827;
+  --color-text-muted:   #4b5563;
+  --color-text-muted2:  #9ca3af;
+  --color-primary-dim:   rgba(99, 102, 241, 0.08);
 }
 
-/* ── Base ── */
+/* ── Base Reset ── */
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
   background-color: var(--color-bg);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.08) 0px, transparent 50%);
   color:            var(--color-text);
-  font-family:      Inter, system-ui, -apple-system, sans-serif;
+  font-family:      var(--font-sans);
   margin:           0;
   height:           100vh;
   overflow:         hidden;
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar       { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--color-bg); }
-::-webkit-scrollbar-thumb { background: var(--color-border-light); border-radius: 3px; }
+/* ── Custom Utilities for Glassmorphism ── */
+.glass-panel {
+  background: var(--color-bg-panel);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border);
+}
 
-/* ── Focus ring ── */
+.glass-card {
+  background: var(--color-bg-surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: var(--color-border-light);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Scrollbar Customization ── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { 
+  background: var(--color-border-light); 
+  border-radius: 9999px;
+  transition: background 0.2s;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* ── Focus states ── */
 :focus-visible {
   outline:        2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-/* ── Canvas fill parent ── */
 canvas { display: block; width: 100%; height: 100%; }
+
+/* ── Custom Animations ── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.6); }
+}
+
+.pulse-active {
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
