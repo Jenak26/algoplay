@@ -99,14 +99,14 @@ describe('Dijkstra honors weights', () => {
     const cells = new Uint8Array(w * h).fill(CELL.OPEN)
     cells[0] = CELL.START
     cells[8] = CELL.END
-    cells[3] = CELL.HEAVY
-    cells[4] = CELL.HEAVY
+    cells[1] = CELL.HEAVY
+    cells[2] = CELL.HEAVY
     cells[5] = CELL.HEAVY
     const { last } = run(recordDijkstra, { width: w, height: h, cells, start: 0, end: 8 })
     expect(pathCellsFrom(last).length).toBeGreaterThan(0)
     const path = new Set(pathCellsFrom(last))
-    expect(path.has(3)).toBe(false)
-    expect(path.has(4)).toBe(false)
+    expect(path.has(1)).toBe(false)
+    expect(path.has(2)).toBe(false)
     expect(path.has(5)).toBe(false)
   })
 })

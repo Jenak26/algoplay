@@ -7,3 +7,9 @@ dist/
 Thumbs.db
 *.tsbuildinfo
 *.js.map
+
+.vercel
+
+# Ignore compiled JS files in src
+src/**/*.js
+src/**/*.jsx
