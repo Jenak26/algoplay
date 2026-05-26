@@ -193,3 +193,4 @@ Most visualizers are built with standard DOM nodes, causing performance throttli
 ## 📄 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
+
